@@ -54,6 +54,22 @@ class Wallet:
     def getBalance(self):
         return self.w3.fromWei(self.w3.eth.getBalance(self.publicKey), 'ether')
 
+    def sendTransactionInEther(self, addr, ether):
+        w3.eth.sendTransaction({
+            'from' : myWallet.publicKey,
+            'to' : addr,
+            'value' : myWallet.w3.toWei(ether, 'ether')
+        })
+
+    def sendTransactionInEuros(self, addr, euros):
+
+        ether = euros / self.getCurrentEtherPrice()
+
+        w3.eth.sendTransaction({
+            'from' : myWallet.publicKey,
+            'to' : addr,
+            'value' : myWallet.w3.toWei(ether, 'ether')
+        })
 
     def deployContract(self, filename, contractName, ether, args):
         with open(filename) as file:
@@ -91,13 +107,15 @@ class Wallet:
         return jsonData['EUR']
 
 
-
 class MUContractWallet(Wallet):
 
-    def createContract(self, filename, contractName, providerAddress, euros):
+    self.contractFilePath = "path/to/contract.sol"
+    self.contractName = "contractName"
+
+    def createContract(self, contractName, providerAddress, euros):
 
         ether = euros / self.getCurrentEtherPrice()
-        contractAddr, contractAbi = self.deployContract(filename, contractName, ether, [euros, providerAddress])
+        contractAddr, contractAbi = self.deployContract(self.contractFilePath, self.contractName, ether, [euros, providerAddress])
         currentContract =  self.getContract(contractAddr, contractAbi)
 
         self.openContracts[contractAddr] = {
@@ -111,7 +129,11 @@ class MUContractWallet(Wallet):
         return contractAddr
 
 
-    def sendMoneyToContract(self, contractAddr , ether):
+    def sendEurosToContract(self, contractAddr , euros):
+        ether = euros / self.getCurrentEtherPrice()
+        self.sendEtherToContract(contractAddr, ether)
+
+    def sendEtherToContract(self, contractAddr , ether):
         self.openContracts[contractAddr].sendMoney({'from' : self.publicKey, 'value' : ether})
 
     def ackRepair(self, contractAddr):
@@ -132,13 +154,4 @@ class MUContractWallet(Wallet):
 
 
 if __name__ == '__main__':
-    myWallet = Wallet('http://127.0.0.1:7545', 'keys.txt')
-    print(myWallet.getBalance())
-
-    myWallet.w3.eth.sendTransaction({
-        'from' : '0x627306090abaB3A6e1400e9345bC60c78a8BEf57',
-        'to' : myWallet.publicKey,
-        'value' : myWallet.w3.toWei(5, 'ether')
-    })
-
-    print(myWallet.getBalance())
+    myWallet = MUContractWallet('http://127.0.0.1:7545', 'keys.txt')
