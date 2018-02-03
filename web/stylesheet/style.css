@@ -8,10 +8,10 @@ body {
   	bottom:50px;
   	background-color: rgb(252,252,252);
 }
-.container{
-  	vertical-align: middle;
-}
 
+.container{
+  display:inline;
+}
 
 .column{
 	height: 100%;
@@ -25,9 +25,10 @@ body {
 	width:33.33%;
 }
 
-#centre{
-	background-color: #ffff00;
+#cen{
 	width:33.33%;
+  top:-50px;
+  display:table;
 }
 #provider{
 	float:left;
@@ -39,16 +40,14 @@ body {
 .MUButton{
 	background-color: #ff6600; 
     border: none;
-    width:70%;
-	margin-left:auto;
-	margin-right:auto;
+    margin-left:auto;
+    margin-right:auto;
     color: white;
-    padding: 20px 50px;
     top: 100px;
     max-height:80px;
-    max-width:180px;
+    height:100%;
+    width:auto;
     min-height:30px;
-    min-width:80px;
     bottom:100px;
     display:table;
     text-align: center;
@@ -56,7 +55,7 @@ body {
     font-size: 16px;
     margin-bottom:10%;
 }
-#A{
+#MachineA{
 	margin-top:10%;
 }
 
@@ -85,3 +84,31 @@ body {
 	margin-top:10%;
 }
 
+.row{
+  vertical-align: middle;
+}
+.bulb {
+  height: 15px;
+  width: 15px;
+  background-color: RGB(255,255,255);
+  border-radius: 70%;
+  margin: 4px auto;
+  margin-right:0px;
+}
+
+.row{
+  font-family: arial;
+  font-size: 14px;
+  color:white;
+  text-align: left;
+
+}
+
+#cout{
+  margin:40px auto;
+  border-style:solid;
+  border-width:5px;
+  border-color: red;
+  height: 200px;
+  width:auto; 
+}
