@@ -11,14 +11,14 @@ import pdb
 
 class Wallet:
 
-    self.openContracts = {}
-    self.closedContracts = {}
 
     def __init__(self, url, filename):
         self.w3 = self.connectToBlockchain(url)
-        
+
+        self.openContracts = {}
+        self.closedContracts = {}
         self.importAccount(filename)
-        if self.publicKey == '':
+        if self.publicKey == '' or self.publicKey == 0:
             self.createAccount()
             self.saveAccount(filename)
 
@@ -36,7 +36,7 @@ class Wallet:
         raw_address = utils.privtoaddr(self.privateKey)
         self.publicKey = utils.checksum_encode(raw_address)
 
-    def saveAccount(self, filename):
+    def saveAccount(self, filename='keys.txt'):
         file = open(filename, 'w')
         file.write('{}\n{}\n'.format(self.privateKey, self.publicKey))
         file.close()
@@ -55,16 +55,13 @@ class Wallet:
         return self.w3.fromWei(self.w3.eth.getBalance(self.publicKey), 'ether')
 
     def sendTransactionInEther(self, addr, ether):
-        w3.eth.sendTransaction({
-            'from' : myWallet.publicKey,
-            'to' : addr,
-            'value' : myWallet.w3.toWei(ether, 'ether')
-        })
+        sendTransaction(addr, ether)
 
     def sendTransactionInEuros(self, addr, euros):
-
         ether = euros / self.getCurrentEtherPrice()
+        sendTransaction(addr, ether)
 
+    def sendTransaction(self, addr, ether):
         w3.eth.sendTransaction({
             'from' : myWallet.publicKey,
             'to' : addr,
@@ -109,11 +106,12 @@ class Wallet:
 
 class MUContractWallet(Wallet):
 
-    self.contractFilePath = "path/to/contract.sol"
-    self.contractName = "contractName"
+
 
     def createContract(self, contractName, providerAddress, euros):
 
+        self.contractFilePath = "path/to/contract.sol"
+        self.contractName = "contractName"
         ether = euros / self.getCurrentEtherPrice()
         contractAddr, contractAbi = self.deployContract(self.contractFilePath, self.contractName, ether, [euros, providerAddress])
         currentContract =  self.getContract(contractAddr, contractAbi)
@@ -126,7 +124,7 @@ class MUContractWallet(Wallet):
         }
 
         currentContract.on('acknowledgeFalse', MUContractWallet.contractFailed)
-        return contractAddr
+        return contractAddr, contractAbi
 
 
     def sendEurosToContract(self, contractAddr , euros):
