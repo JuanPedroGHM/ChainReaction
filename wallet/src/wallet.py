@@ -55,16 +55,13 @@ class Wallet:
         return self.w3.fromWei(self.w3.eth.getBalance(self.publicKey), 'ether')
 
     def sendTransactionInEther(self, addr, ether):
-        w3.eth.sendTransaction({
-            'from' : myWallet.publicKey,
-            'to' : addr,
-            'value' : myWallet.w3.toWei(ether, 'ether')
-        })
+        sendTransaction(addr, ether)
 
     def sendTransactionInEuros(self, addr, euros):
-
         ether = euros / self.getCurrentEtherPrice()
+        sendTransaction(addr, ether)
 
+    def sendTransaction(self, addr, ether):
         w3.eth.sendTransaction({
             'from' : myWallet.publicKey,
             'to' : addr,
