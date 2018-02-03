@@ -7,9 +7,9 @@
   <body>
   	<div class = "container">
   		<div id="MU" class="column">
-  			<img src="robot.png" id="MachineA" class="MUButton" alt="Machine A">
-  			<img src="robot.png" id="MachineB" class="MUButton" alt="Machine B">
-  			<img src="robot.png" id="MachineC" class="MUButton" alt="Machine C">
+  			<img src="./images/robot.png" id="MachineA" class="MUButton" alt="Machine A">
+  			<img src="./images/robot.png" id="MachineB" class="MUButton" alt="Machine B">
+  			<img src="./images/robot.png" id="MachineC" class="MUButton" alt="Machine C">
   		</div>
   		<div id="cen" class="column">
   			<div style="background-color: RGB(0,0,0); height:40%; width:30%; margin: 10px auto; padding:5%; margin-bottom: 15px">
@@ -37,8 +37,20 @@
   			<div id="cout"></div>
   		</div>
   		<div id="provider" class="column">
-  			<button id="P1" class="PRButton">Provider 1</button>
-  			<button id="P2" class="PRButton">Provider 2</button>
+  			<div class="providerUI">
+  				<div id="P1" class="PRLabel">Provider 1</div>
+  				<img src="./images/pied-piper.png" id="logoPr1" class="logoPr" alt="logoProvider1">
+  				<h5 style="text-align:center"> New Contract Offer! </h5>
+  				<button id="Acc1" type="submit" class="acceptButton">Acknowledge Contract </button>
+  				<button id="Rej1" type="submit" class="rejectButton">Reject Contract</button>
+  			</div>
+  			<div class="providerUI">
+  				<div id="P2" class="PRLabel">Provider 2</div>
+  				<img src="./images/hooli.png" id="logoPr2" class="logoPr" alt="logoProvider2">
+  				<h5 style="text-align:center"> New Contract Offer! </h5>
+  				<button id="Acc2" type="submit" class="acceptButton">Acknowledge Contract </button>
+  				<button id="Rej2" type="submit" class="rejectButton">Reject Contract</button>
+  			</div>
   		</div>
   	</div>
 
