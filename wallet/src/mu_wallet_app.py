@@ -17,6 +17,8 @@ def newContract():
     data = request.get_json()
     wallet.createContract(contractName, data['providerAddr'], data['value'])
 
+    return jsonify({ 'contractAddr': contractAddr, 'contractAbi': contractAbi})
+
 # Transfer euro to contract
 # {
 #   'contractAddr': addr,
@@ -69,6 +71,8 @@ def getContractBalance():
         'balance': createBalanceResponse(wallet)
     }
     return jsonify(response)
+
+
 
 
 if __name__ == '__main__':
