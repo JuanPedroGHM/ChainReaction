@@ -14,18 +14,8 @@ Have Ganache2 installed and running
 
 #### Run it
 
-Run a python shell and import the wallet:
-
-    from src import wallet
-
-#### Create a new local wallet
-
-    mywallet = wallet
-    mywallet = wallet.Wallet('http://127.0.0.1:7545', 'keys.txt')
-    mywallet.getBalance()
-    
-#### Go to Ganache2 and get a adress
-    
-
-    mywallet.w3.eth.sendTransaction({'from': '0xf17f52151EbEF6C7334FAD080c5704D77216b732' 'value': mywallet.w3.toWei(5, 'ether'), 'to': mywallet.publicKey})
-    mywallet.getBalance()
+Run the application
+    git clone https://github.com/JuanPedroGHM/ChainReaction.git
+    cd ChainReaction
+    python wallet/src/mu_wallet_app.py
+   
