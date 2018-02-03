@@ -1,2 +1,4 @@
 keys.txt
 __pycache__
+*.iml
+.idea/
