@@ -1,7 +1,8 @@
 from web3 import HTTPProvider, Web3
-from web3.contract import ConciseContract
 
 from ethereum import utils
+
+from solc import compile_source
 
 import requests
 
@@ -11,45 +12,22 @@ import pdb
 
 class Wallet:
 
-
-    def __init__(self, url, filename):
+    def __init__(self, url, filename, index):
         self.w3 = self.connectToBlockchain(url)
 
         self.openContracts = {}
         self.closedContracts = {}
-        self.importAccount(filename)
-        if self.publicKey == '' or self.publicKey == 0:
-            self.createAccount()
-            self.saveAccount(filename)
-
+        self.createAccount(index)
 
         print('Public Key : {}'.format(self.publicKey))
-
 
     def connectToBlockchain(self, url):
         http_provider = HTTPProvider(url)
         return Web3(http_provider)
 
 
-    def createAccount(self):
-        self.privateKey = utils.sha3(os.urandom(4096))
-        raw_address = utils.privtoaddr(self.privateKey)
-        self.publicKey = utils.checksum_encode(raw_address)
-
-    def saveAccount(self, filename='keys.txt'):
-        file = open(filename, 'w')
-        file.write('{}\n{}\n'.format(self.privateKey, self.publicKey))
-        file.close()
-
-
-    def importAccount(self, filename):
-        try:
-            with open(filename) as file:
-                self.privateKey = file.readline().strip()
-                self.publicKey = file.readline().strip()
-        except IOError:
-            self.publicKey = 0
-
+    def createAccount(self, index):
+        self.publicKey = self.w3.eth.accounts[index]
     
     def getBalance(self):
         return self.w3.fromWei(self.w3.eth.getBalance(self.publicKey), 'ether')
@@ -63,12 +41,12 @@ class Wallet:
 
     def sendTransaction(self, addr, ether):
         w3.eth.sendTransaction({
-            'from' : myWallet.publicKey,
+            'from' : self.publicKey,
             'to' : addr,
-            'value' : myWallet.w3.toWei(ether, 'ether')
+            'value' : self.w3.toWei(ether, 'ether')
         })
 
-    def deployContract(self, filename, contractName, ether, args):
+    def deployContract(self, filename, contractName, ether, providerAddr):
         with open(filename) as file:
             source_code = file.readlines()
 
@@ -83,9 +61,9 @@ class Wallet:
         )
 
         transaction_hash = contract_factory.deploy(
-            transaction = {'from' : self.publicKey, 'value': w3.toWei(ether, 'ether')},
-            args= [args]
-        )
+            transaction = {'from' : self.publicKey, 'value' : self.w3.toWei(ether, 'ether')},
+            args = [providerAddr]
+            )
 
         transaction_receipt = self.w3.eth.getTransactionReceipt(transaction_hash)
         contract_address = transaction_receipt['contractAddress']
@@ -93,63 +71,8 @@ class Wallet:
 
 
     def getContract(self, contractAddr, contractAbi):
-        return self.w3.eth.contract(
-            abi=contractAbi,
-            address=contractAddr,
-            ContractFactoryClass=ConciseContract
-        )
+        return self.w3.eth.contract(contractAddr, abi=contractAbi)
 
     def getCurrentEtherPrice(self):
-        jsonData = requests.get("https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=EUR")
+        jsonData = requests.get("https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=EUR").json()
         return jsonData['EUR']
-
-
-class MUContractWallet(Wallet):
-
-
-
-    def createContract(self, contractName, providerAddress, euros):
-
-        self.contractFilePath = "path/to/contract.sol"
-        self.contractName = "contractName"
-        ether = euros / self.getCurrentEtherPrice()
-        contractAddr, contractAbi = self.deployContract(self.contractFilePath, self.contractName, ether, [euros, providerAddress])
-        currentContract =  self.getContract(contractAddr, contractAbi)
-
-        self.openContracts[contractAddr] = {
-            'provider' : providerAddress,
-            'contractAddress' : contractAddr,
-            'euros' :  euros,
-            'instance': currentContract
-        }
-
-        currentContract.on('acknowledgeFalse', MUContractWallet.contractFailed)
-        return contractAddr, contractAbi
-
-
-    def sendEurosToContract(self, contractAddr , euros):
-        ether = euros / self.getCurrentEtherPrice()
-        self.sendEtherToContract(contractAddr, ether)
-
-    def sendEtherToContract(self, contractAddr , ether):
-        self.openContracts[contractAddr].sendMoney({'from' : self.publicKey, 'value' : ether})
-
-    def ackRepair(self, contractAddr):
-        self.openContracts[contractAddr].acknowledge({'from' : self.publicKey})
-    
-    def withdraw(self, contractAddr):
-        self.openContracts[contractAddr].withdraw({'from' : self.publicKey})
-
-        self.closedContracts[contractAddr] = self.openContracts[contractAddr]
-        del self.openContracts[contractAddr]
-
-    def getContractBalance(self, contractAddr):
-        return self.openContracts[contractAddr].getBalance()
-
-    def contractFailed(self, event):
-        print(event)
-        # self.withdrawContract.acknowledge({'from' : self.publicKey})
-
-
-if __name__ == '__main__':
-    myWallet = MUContractWallet('http://127.0.0.1:7545', 'keys.txt')

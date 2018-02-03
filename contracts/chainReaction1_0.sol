@@ -1,4 +1,4 @@
-pragma solidity ^0.4.0;
+pragma solidity ^0.4.18;
 
 contract ChainReaction {
     
@@ -15,20 +15,18 @@ contract ChainReaction {
     uint amount4TP;
     
     //Only TP can call these
-    event ContractRejected;
-    event ackContract;
-    event MissingFundsEvent(uint money);
+    event ProviderResponse(bool accepted);
     //only MU can call this 
-    event ackRepair(bool aRepair);
+    event AckRepair(bool aRepair);
     
     function ChainReaction(address provider) public payable {
         payment = true;
-        mgmtUnit=msg.sender;
-        require(msg.sender!=provider);
-        require(msg.value>0);
+        mgmtUnit = msg.sender;
+        require(msg.sender != provider);
+        require(msg.value > 0);
         trustedProvider = provider;
         amount4TP = msg.value;
-        amount4MU=0;
+        amount4MU = 0;
     }
     
     function getAMU() public view returns (uint) {
@@ -39,7 +37,7 @@ contract ChainReaction {
       return amount4TP;
     }    
     
-    function() public payable{
+    function() public payable {
         
     }
     
@@ -47,29 +45,29 @@ contract ChainReaction {
       return this.balance;
     }
     
-    function acceptContract() public{
-        require(trustedProvider==msg.sender);
+    function acceptContract() public {
+        require(trustedProvider == msg.sender);
         accepted = true;
-        ackContract();
+        ProviderResponse(true);
     }
     
-    function rejectContract() public{
+    function rejectContract() public {
         require(trustedProvider==msg.sender);
         rejected = true;
         amount4MU = amount4TP;
         amount4TP = 0;
-        ContractRejected();
+        ProviderResponse(false);
     }
     
     function sendMoney() public payable {
-        amount4TP+=msg.value;
+        amount4TP += msg.value;
     }
     
     function acknowledgeRepair() public {
         require(accepted == true);
         require(mgmtUnit == msg.sender);
         aRepair = true;
-        ackRepair(aRepair);
+        AckRepair(aRepair);
     }
     
     modifier canWithdraw() {
@@ -77,22 +75,19 @@ contract ChainReaction {
         if ((payment==true&&rejected==true)||(payment==true&&accepted==true&&aRepair==true)){
             allowed = true;
         }
-        
         require(allowed);
         _;
     }
     
     function withdraw() public canWithdraw {
-        address requester;
-        requester = msg.sender;
-        if(requester==mgmtUnit && amount4MU > 0) {
+        if(msg.sender == mgmtUnit) {
             uint varo = amount4MU;
-            msg.sender.transfer(varo);
+            msg.sender.send(varo);
             amount4MU = 0;
         }
-        if(requester==trustedProvider && amount4TP > 0){
+        if(msg.sender == trustedProvider) {
             uint pavos = amount4TP;
-            msg.sender.transfer(pavos);
+            msg.sender.send(pavos);
             amount4TP = 0;
         }
     }

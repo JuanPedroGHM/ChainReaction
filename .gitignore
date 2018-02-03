@@ -2,12 +2,9 @@ keys.txt
 __pycache__
 *.iml
 .idea/
-<<<<<<< HEAD
 
 web/node_modules
 web/bower_components
-=======
 sandbox.py
 .DS_Store
 
->>>>>>> 686e48da4a8c079878727f32b6e7dbd6fe535870
