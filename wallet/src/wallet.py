@@ -36,7 +36,7 @@ class Wallet:
         raw_address = utils.privtoaddr(self.privateKey)
         self.publicKey = utils.checksum_encode(raw_address)
 
-    def saveAccount(self, filename):
+    def saveAccount(self, filename='keys.txt'):
         file = open(filename, 'w')
         file.write('{}\n{}\n'.format(self.privateKey, self.publicKey))
         file.close()
