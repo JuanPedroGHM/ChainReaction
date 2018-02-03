@@ -7,19 +7,55 @@
   <body>
   	<div class = "container">
   		<div id="MU" class="column">
-  			<button id="A" class="MUButton">A</button>
-  			<button id="B" class="MUButton">B</button>
-  			<button id="C" class="MUButton">C</button>
+  			<img src="./images/robot.png" id="MachineA" class="MUButton" alt="Machine A">
+  			<img src="./images/robot.png" id="MachineB" class="MUButton" alt="Machine B">
+  			<img src="./images/robot.png" id="MachineC" class="MUButton" alt="Machine C">
   		</div>
-  		<div id="centre" class="column">
-  			<div id="flags" class="flags">Flags</div>
-  			<div id="cout" class="cout">Cout</div>
+  		<div id="cen" class="column">
+  			<div style="background-color: #4d4d4d; height:40%; width:30%; margin: 10px auto; padding:5%; margin-bottom: 15px; border-radius: 25px" id="lights">
+				<div class="row">
+					Paid
+					<div id="P" class="bulb"></div>
+				</div>
+				<div class="row">
+					Accepted
+					<div id="A" class="bulb"></div>
+				</div>
+				<div class="row">
+					Rejected
+					<div id="R" class="bulb"></div>
+				</div>
+				<div class="row">
+					Acknowledge Repair
+					<div id="AR" class="bulb"></div>
+				</div>
+				<div class="row">
+					Finished
+					<div id="F" class="bulb"></div>
+  			</div>
+  			</div>
+  			<div id="cout"></div>
   		</div>
   		<div id="provider" class="column">
-  			<button id="P1" class="PRButton">P1</button>
-  			<button id="P2" class="PRButton">P2</button>
-  		</div>
-  	</div>
+        <div class="providerUI">
+          <div id="P1" class="PRLabel">Provider 1</div>
+          <img src="./images/pied-piper.png" id="logoPr1" class="logoPr" alt="logoProvider1">
+          <h5 style="text-align:center"> New Contract Offer! </h5>
+          <div style="text-align:center">
+          <button id="Acc1" type="submit" class="acceptButton">Accept Contract </button>
+          <button id="Rej1" type="submit" class="rejectButton">Reject Contract</button>
+          </div>
+        </div>
+        <div class="providerUI">
+          <div id="P2" class="PRLabel">Provider 2</div>
+          <img src="./images/hooli.png" id="logoPr2" class="logoPr" alt="logoProvider2">
+          <h5 style="text-align:center"> New Contract Offer! </h5>
+          <div style="text-align:center">
+          <button id="Acc2" type="submit" class="acceptButton">Accept Contract </button>
+          <button id="Rej2" type="submit" class="rejectButton">Reject Contract</button>
+          </div>
+        </div>
+      </div>
 
   </body>
 

@@ -1,0 +1,164 @@
+body {
+    height:100%;
+    width:100%;
+    position: absolute;
+    top: 80px;
+    left: 50px;
+    right: 50px;
+    bottom:50px;
+    background-color: rgb(252,252,252);
+}
+
+.container{
+  display:inline;
+}
+
+.column{
+  height: 100%;
+  float:left;
+  position:relative;
+  margin-left:auto;
+  margin-right:auto;
+}
+
+#MU{
+  width:33.33%;
+}
+
+#cen{
+  width:33.33%;
+  margin-top:-30px;
+  display:table;
+}
+#provider{
+  width:33.33%;
+  margin-top:-50px;
+  display:table;
+}
+
+.MUButton{
+  background-color: #ff6600; 
+  border: none;
+  margin-left:auto;
+  margin-right:auto;
+  color: white;
+  top: 100px;
+  max-height:80px;
+  height:100%;
+  width:auto;
+  min-height:30px;
+  display:table;
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px;
+  margin-bottom:20%;
+}
+
+
+.PRButton{
+  background-color: #404040;   
+  border: none;
+  width:50%;
+  margin-left:auto;
+  margin-right:auto;
+  color: white;
+  padding: 20px 50px;
+  top: 100px;
+  max-height:80px;
+  max-width:180px;
+  min-height:30px;
+  min-width:80px;
+  bottom:100px;
+  display:table;
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px;
+  margin-bottom:10%;
+}
+
+#P1{
+  margin-top:10%;
+}
+
+.row{
+  vertical-align: middle;
+}
+
+.bulb {
+  height: 15px;
+  width: 15px;
+  background-color: RGB(255,255,255);
+  border-radius: 70%;
+  margin: 4px auto;
+  margin-right:0px;
+}
+
+.row{
+  font-family: arial;
+  font-size: 14px;
+  color:white;
+  text-align: left;
+
+}
+
+#cout{
+  margin:40px auto;
+  border-style:solid;
+  border-width:5px;
+  border-color: red;
+  height: 200px;
+  width:auto; 
+}
+
+.providerUI{
+  width:100%;
+  display:table;
+}
+.PRLabel{
+  background-color: #404040;   
+  border: none;
+  width:120px;
+  margin-left:auto;
+  margin-right:auto;
+  color: white;
+  display:table;
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px;
+}
+
+.logoPr{
+  border: none;
+  border-radius: 5px;
+  margin-left:auto;
+  margin-right:auto;
+  width:20%;
+  height:auto;
+  color: white;
+  display:table;
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px;
+  margin-bottom:10%;
+}
+
+.acceptButton{
+  background-color: green; 
+  border-radius: 5px;
+  border: none;
+  color: white;
+  text-decoration: none;
+  font-size: 14px;
+  margin-bottom:10%;
+}
+
+.rejectButton{
+  background-color: red;
+  border: none;
+  border-radius: 5px;
+  display:inline;
+  color: white;
+  text-decoration: none;
+  font-size: 14px;
+  margin-bottom:10%;
+}
