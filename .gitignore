@@ -2,3 +2,6 @@ keys.txt
 __pycache__
 *.iml
 .idea/
+
+web/node_modules
+web/bower_components

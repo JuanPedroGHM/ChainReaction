@@ -6,12 +6,8 @@ app = Flask(__name__)
 
 wallet = MUContractWallet('http://127.0.0.1:7545', 'keys.txt')
 
-@app.route('/')
 
-
-
-
-@app.route('/contract', methods=['POST'])
+@app.route('/contract/new', methods=['POST'])
 def newContract():
     data = request.get_json()
 
