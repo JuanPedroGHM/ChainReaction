@@ -5,55 +5,57 @@ class Demo{
     constructor(muUrl, p1url, p2url, chainUrl){
         this.muUrl = muUrl;
         this.p1url = p1url;
-        this.p2url = p2url;
+        // this.p2url = p2url;
         
-        this.w3 = new Web3(new Web3.providers.HttpProvider(chainUrl));
+        // this.w3 = new Web3(new Web3.providers.HttpProvider(chainUrl));
 
     }
 
     example1(){
         // 1. Tell mu machine A needs to be repaired
 
-        breakMachine('A');
+        // breakMachine('A');
         
         // 2. mu creates contract, selects provider 1, sends info
-        contract = {'machineID' : 'A',
-                    'value': 100};
-        $.post(this.muUrl + '/contract/new', 
-                {'providerAddr' : this.p1url, 'value' : 100}, 
-                function(data){
-                    contract['addr'] = data['addr'];
-                    contract['abi'] = data['abi']
-                }).done(function(event){
-                    $.post(this.p1url + '/contract/new',
-                    contract, function(data){
-                        Console.log(data);
-                    });
-                });
+        
+        var data = {
+            'providerAddr': this.p1url,
+            'value': 1000,
+            'machineID' : 'A',
+        }
+        $.ajax({
+            url : this.muUrl + '/contract/new',
+            type: 'POST',
+            data : JSON.stringify(data),
+            contentType: 'application/json',
+            success : function(data){
+                Console.log(data);
+            }
+        })
 
         // 3. provider 1 takes contract (done automatic)
-        acceptContract(1);
+        // acceptContract(1);
 
         // 4. provider 1 repairs machine A
         // 5. machine A informs managment unit
-        repairMachine('A');
+        // repairMachine('A');
 
         // 6. managment unit ackRepair on contract
-        $.post(this.muUrl + '/contract/ackRepair',
-                contract, function(data){
-                    Console.log(data);
-                });
+        // $.post(this.muUrl + '/contract/ackRepair',
+        //         contract, function(data){
+        //             Console.log(data);
+        //         });
 
-        // 7. managment unit and provider 1 withdraw funds from contract
-        $.post(this.muUrl + '/contract/widthdraw',
-                contract, function(data){
-                    Console.log(data);
-                });
+        // // 7. managment unit and provider 1 withdraw funds from contract
+        // $.post(this.muUrl + '/contract/widthdraw',
+        //         contract, function(data){
+        //             Console.log(data);
+        //         });
 
-        $.post(this.p1url + '/contract/widthdraw',
-        contract, function(data){
-            Console.log(data);
-        });
+        // $.post(this.p1url + '/contract/widthdraw',
+        // contract, function(data){
+        //     Console.log(data);
+        // });
     }
 
     example2(){

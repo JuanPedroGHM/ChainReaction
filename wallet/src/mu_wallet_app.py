@@ -1,10 +1,13 @@
 import json
 from flask import Flask, jsonify, request
-from wallet import MUContractWallet, Wallet
+from flask_cors import CORS, cross_origin
+
+from muWallet import MUContractWallet
 
 app = Flask(__name__)
+CORS(app, support_credentials=True)
 
-wallet = MUContractWallet('http://127.0.0.1:7545', 'keys.txt')
+wallet = MUContractWallet('http://127.0.0.1:8545', 'keys.txt', 0)
 
 # Create a new contract
 # {
@@ -13,11 +16,13 @@ wallet = MUContractWallet('http://127.0.0.1:7545', 'keys.txt')
 #   'providerAddr': provAddr
 # }
 @app.route('/contract/new', methods=['POST'])
+@cross_origin(supports_credentials=True)
 def newContract():
     data = request.get_json()
-    wallet.createContract(contractName, data['providerAddr'], data['value'])
+    print(request)
+    contractAddr, contractAbi = wallet.createContract(data['providerAddr'], data['value'])
 
-    return jsonify({ 'contractAddr': contractAddr, 'contractAbi': contractAbi})
+    return jsonify({ 'contractAddr': contractAddr, 'contractAbi': contractAbi}), 200
 
 # Transfer euro to contract
 # {
@@ -73,8 +78,6 @@ def getContractBalance():
     return jsonify(response)
 
 
-
-
 if __name__ == '__main__':
-  app.run('127.0.0.1',5000)
+  app.run('127.0.0.1', 5000)
 
