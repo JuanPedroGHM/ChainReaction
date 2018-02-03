@@ -1,0 +1,87 @@
+body {
+  	height:100%;
+  	width:100%;
+  	position: absolute;
+  	top: 80px;
+  	left: 50px;
+  	right: 50px;
+  	bottom:50px;
+  	background-color: rgb(252,252,252);
+}
+.container{
+  	vertical-align: middle;
+}
+
+
+.column{
+	height: 100%;
+	float:left;
+	position:relative;
+	margin-left:auto;
+	margin-right:auto;
+}
+
+#MU{
+	width:33.33%;
+}
+
+#centre{
+	background-color: #ffff00;
+	width:33.33%;
+}
+#provider{
+	float:left;
+	width:33.33%;
+	display:table;
+	position:relative;
+}
+
+.MUButton{
+	background-color: #ff6600; 
+    border: none;
+    width:70%;
+	margin-left:auto;
+	margin-right:auto;
+    color: white;
+    padding: 20px 50px;
+    top: 100px;
+    max-height:80px;
+    max-width:180px;
+    min-height:30px;
+    min-width:80px;
+    bottom:100px;
+    display:table;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    margin-bottom:10%;
+}
+#A{
+	margin-top:10%;
+}
+
+.PRButton{
+	background-color: #404040;   
+	border: none;
+    width:50%;
+    margin-left:auto;
+	margin-right:auto;
+    color: white;
+    padding: 20px 50px;
+    top: 100px;
+    max-height:80px;
+    max-width:180px;
+    min-height:30px;
+    min-width:80px;
+    bottom:100px;
+    display:table;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    margin-bottom:10%;
+}
+
+#P1{
+	margin-top:10%;
+}
+
