@@ -25,7 +25,7 @@ def newContract():
 @app.route('/contract/transfer/euro', methods = ['POST'])
 def transferEuros(contractAddr, amount):
     data = request.get_json()
-    wallet.sendEtherToContract(data['contractAddr'], data['value'])
+    wallet.sendEurosToContract(data['contractAddr'], data['value'])
     return jsonify('OK')
 
 # Transfer ether to contract
