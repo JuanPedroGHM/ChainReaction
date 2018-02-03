@@ -2,3 +2,4 @@ keys.txt
 __pycache__
 *.iml
 .idea/
+sandbox.py

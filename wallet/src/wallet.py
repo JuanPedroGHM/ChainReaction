@@ -11,14 +11,14 @@ import pdb
 
 class Wallet:
 
-    self.openContracts = {}
-    self.closedContracts = {}
 
     def __init__(self, url, filename):
         self.w3 = self.connectToBlockchain(url)
-        
+
+        self.openContracts = {}
+        self.closedContracts = {}
         self.importAccount(filename)
-        if self.publicKey == '':
+        if self.publicKey == '' or self.publicKey == 0:
             self.createAccount()
             self.saveAccount(filename)
 
@@ -109,11 +109,12 @@ class Wallet:
 
 class MUContractWallet(Wallet):
 
-    self.contractFilePath = "path/to/contract.sol"
-    self.contractName = "contractName"
+
 
     def createContract(self, contractName, providerAddress, euros):
 
+        self.contractFilePath = "path/to/contract.sol"
+        self.contractName = "contractName"
         ether = euros / self.getCurrentEtherPrice()
         contractAddr, contractAbi = self.deployContract(self.contractFilePath, self.contractName, ether, [euros, providerAddress])
         currentContract =  self.getContract(contractAddr, contractAbi)
