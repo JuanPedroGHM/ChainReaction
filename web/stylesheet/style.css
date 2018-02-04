@@ -57,9 +57,12 @@ body {
 
 #cout{
   margin:10% 5%;
-  border-style:solid;
+  border-style:ridge;
+  background-color:black; 
   border-width:1%;
-  border-color: red;
+  border-color: #0000d7;
+  color:#00d700;
+  border-width:0.5px;
   height: 30%;
   width:auto; 
 }
@@ -152,7 +155,10 @@ body {
 
 .msg{
   overflow:hidden;
-  position:absolute;
+  position:relative;
+  text-align: center;
+  vertical-align: middle;
   visibility: hidden;
-  color:red;
+  color:#00d700;
+  height:16px;
 }
