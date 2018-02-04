@@ -21,8 +21,7 @@ class Demo{
             'providerAddr': this.providers[providerIndex].pubk,
             'providerUrl' : this.providers[providerIndex].url,
             'value': 1000,
-            'machineID' : machineID,
-            'valid' : valid
+            'machineID' : machineID
         }
         
         this.contractData;
@@ -32,18 +31,33 @@ class Demo{
             type: 'POST',
             data : JSON.stringify(data),
             contentType: 'application/json',
-            async: false,
             success : function(data){
                 this.contractData = data;
             }.bind(this)
         });
     }
 
-    acknowledgeRepair(index){
+    answerContractRequest(accept, providerIndex){
+
+        data = {
+            'contractAddr' : this.contractData.contractAddr,
+            'accept' : accept
+        }
+        $.ajax({
+            url: this.providers[providerIndex].url + '/contract/validate',
+            type : 'POST',
+            data: JSON.stringify(data),
+            contentType: 'application/json',
+            success : function(data){
+                this.contractData.accepted = data['accepted']
+            }.bind(this)
+        })
+    }
+
+    acknowledgeRepair(){
 
         var data = {
-            'contractAddr' : this.contractData.contractAddr,
-            'providerUrl' : this.providers[index].url
+            'contractAddr' : this.contractData.contractAddr
         };
 
         if( this.contractData){
@@ -58,6 +72,31 @@ class Demo{
                 }.bind(this)
             });
         }
+    }
+
+    withdraw(name){
+        var url;
+        if (name  == 'mu'){
+            url = this.MU.url;
+        }else if(name == 'provider0'){
+            url = this.providers[0].url;
+
+        }else{
+            url = this.providers[1].url;
+        }
+
+        data = {
+            'contractAddr' : this.contractData.contractAddr,
+        }
+        $.ajax({
+            url: url + '/contract/finished',
+            type : 'POST',
+            data: JSON.stringify(data),
+            contentType: 'application/json',
+            success : function(data){
+                console.log(data);
+            }.bind(this)
+        }) 
     }
 
     getBalance(walletUrl) {

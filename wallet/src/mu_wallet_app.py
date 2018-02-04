@@ -73,7 +73,7 @@ def transferEther():
 # {
 #   'contractAddr': addr
 # }
-@app.route('/contract/withdraw', methods = ['POST'])
+@app.route('/contract/finished', methods = ['POST'])
 @cross_origin(supports_credentials=True)
 def withdraw():
     data = request.get_json()
@@ -90,9 +90,9 @@ def ackRepair():
     data = request.get_json()
     wallet.ackRepair(data['contractAddr'])
 
-    requests.post(data['providerUrl'] + '/contract/finished', json = {
-        'contractAddr' : data['contractAddr'],
-    })
+    # requests.post(data['providerUrl'] + '/contract/finished', json = {
+    #     'contractAddr' : data['contractAddr'],
+    # })
 
     return getBalance()
 

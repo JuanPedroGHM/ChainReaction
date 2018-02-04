@@ -13,16 +13,19 @@ class PRWallet(Wallet):
             'euros' :  value,
             'instance': currentContract
         }
+        money = Web3.toInt(self.getAssignedAmount(contractAddr))
+        print('Money : {}'.format(self.w3.fromWei(money, 'ether')))
         
+
+    def validateContract(self, contractAddr, valid):
         if not valid:
             currentContract.call().rejectContract()
             self.closeContract(contractAddr)
         
         else: 
             currentContract.transact({'from' : self.publicKey}).acceptContract()
-
-            money = Web3.toInt(self.getAssignedAmount(contractAddr))
-            print('Money : {}'.format(self.w3.fromWei(money, 'ether')))
+        
+        return valid
 
     def closeContract(self, contractAddr):
         self.closedContracts[contractAddr] = self.openContracts[contractAddr]

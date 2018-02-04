@@ -18,6 +18,7 @@ $(document).ready(function(){
 		id_str="#"+(id);
 		$(id_str).css("background-color", "green");
 	});
+	
 	/*send notification from A to B*/
 	/*$("#MachineA").click(function(){*/
 	$(".bulb").click(function(){

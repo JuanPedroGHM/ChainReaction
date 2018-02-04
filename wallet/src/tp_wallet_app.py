@@ -35,6 +35,19 @@ def newContract():
     
     return jsonify({'Contract recieved' : valid}), 200
 
+@app.route('/contract/validate', methods=['POST'])
+@cross_origin(supports_credentials=True)
+def validate():
+    values = request.get_json()
+
+    myWallet.validateContract(values['contractAddr'], values['valid'])
+
+    response = {
+        'accepted' : values['valid'],
+    }
+    return jsonify(response), 200
+
+
 @app.route('/contract/finished', methods = ['POST'])
 @cross_origin(supports_credentials=True)
 def finishContract():
