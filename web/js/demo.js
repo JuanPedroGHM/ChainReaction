@@ -1,4 +1,4 @@
-
+var contractData;
 
 class Demo{
 
@@ -6,15 +6,15 @@ class Demo{
         
         this.MU = {
             url : 'http://localhost:5000',
-            pubk : '0xa7eb704d22d02302be513804cf01f17f65bda653'
+            pubk : '0xcCd25d5aC5d960B257Ea80b3740361C54b75f956'
         };
 
         this.providers = [{
             'url' : 'http://localhost:5001',
-            'pubk' : '0x9ab4361184baf905ea5134d2ff31f2d48aba1916'
+            'pubk' : '0x49c38B6bcb4f0bA108Dabe254Fd8c196998cB30a'
         },{
             'url' : 'http://localhost:5002',
-            'pubk' : '0x6df43ceccffebcdcaefdaea5f73430949f0638bd'
+            'pubk' : '0xFd7B465f9Cc0E5fB919599F6CC84f5676Ee4a909'
         }];
     }
 
@@ -26,8 +26,6 @@ class Demo{
             'value': 1000,
             'machineID' : machineID
         }
-        
-        this.contractData;
 
         $.ajax({
             url : this.MU.url + '/contract/new',
@@ -35,46 +33,45 @@ class Demo{
             data : JSON.stringify(data),
             contentType: 'application/json',
             success : function(data){
-                this.contractData = data;
-            }.bind(this)
+                contractData = data;
+            }
         });
     }
 
     answerContractRequest(accept, providerIndex){
 
         var data = {
-            // 'contractAddr' : this.contractData['contractAddr'],
-            'accept' : accept
+            'contractAddr' : contractData['contractAddr'],
+            'valid' : accept
         }
+        console.log(data);
         $.ajax({
             url: this.providers[providerIndex].url + '/contract/validate',
             type : 'POST',
             data: JSON.stringify(data),
             contentType: 'application/json',
             success : function(data){
-                this.contractData.accepted = data['accepted']
-            }.bind(this)
+                contractData.accepted = data['accepted']
+            }
         })
     }
 
     acknowledgeRepair(){
 
         var data = {
-            'contractAddr' : this.contractData.contractAddr
+            'contractAddr' : contractData.contractAddr
         };
 
-        if( this.contractData){
-            $.ajax({
-                url : this.MU.url + '/contract/ackRepair',
-                type: 'POST',
-                data : JSON.stringify(data),
-                contentType: 'application/json',
-                async: false,
-                success : function(data){
-                    console.log(data);
-                }.bind(this)
-            });
-        }
+        $.ajax({
+            url : this.MU.url + '/contract/ackRepair',
+            type: 'POST',
+            data : JSON.stringify(data),
+            contentType: 'application/json',
+            async: false,
+            success : function(data){
+                console.log(data);
+            }
+        });
     }
 
     withdraw(name){
@@ -88,8 +85,8 @@ class Demo{
             url = this.providers[1].url;
         }
 
-        data = {
-            'contractAddr' : this.contractData.contractAddr,
+        var data = {
+            'contractAddr' : contractData.contractAddr,
         }
         $.ajax({
             url: url + '/contract/finished',
@@ -98,7 +95,7 @@ class Demo{
             contentType: 'application/json',
             success : function(data){
                 console.log(data);
-            }.bind(this)
+            }
         }) 
     }
 

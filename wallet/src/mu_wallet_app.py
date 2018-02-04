@@ -39,8 +39,7 @@ def newContract():
         'contractAbi' : contractAbi,
         'value' : data['value'],
         'machineID' : data['machineID'],
-        'muAddr' : wallet.publicKey,
-        'valid' : data['valid']
+        'muAddr' : wallet.publicKey
     })
 
     return jsonify({ 'contractAddr': contractAddr, 'contractAbi': contractAbi}), 200

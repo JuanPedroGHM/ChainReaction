@@ -3,7 +3,7 @@ from web3 import Web3
 
 class PRWallet(Wallet):
 
-    def newContract(self, contractAddr, contractAbi, muAddr, value, valid):
+    def newContract(self, contractAddr, contractAbi, muAddr, value):
 
         currentContract = self.getContract(contractAddr, contractAbi)
 
@@ -19,11 +19,11 @@ class PRWallet(Wallet):
 
     def validateContract(self, contractAddr, valid):
         if not valid:
-            currentContract.call().rejectContract()
+            self.openContracts[contractAddr]['instance'].transact({'from' : self.publicKey}).rejectContract()
             self.closeContract(contractAddr)
         
         else: 
-            currentContract.transact({'from' : self.publicKey}).acceptContract()
+            self.openContracts[contractAddr]['instance'].transact({'from' : self.publicKey}).acceptContract()
         
         return valid
 
