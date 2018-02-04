@@ -147,4 +147,12 @@ body {
 .sprite{
   overflow:hidden;
   position:absolute;
+  visibility: hidden;
+}
+
+.msg{
+  overflow:hidden;
+  position:absolute;
+  visibility: hidden;
+  color:red;
 }
