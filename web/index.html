@@ -1,11 +1,9 @@
 <!doctype html>
 <html lang="en">
   <head>
-		<link rel="stylesheet" href="./stylesheet/style.css" type="text/css">
-		<script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
-		<script type="text/javascript" src="js/demo.js"></script>
-		<script type="text/javascript" src="js/main.js"></script>
-
+  	<link rel="stylesheet" href="./stylesheet/style.css" type="text/css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="js/functions.js"></script>
   </head>
 
   <body>
@@ -16,7 +14,7 @@
   			<img src="./images/robot.png" id="MachineC" class="MUButton" alt="Machine C">
   		</div>
   		<div id="cen" class="column">
-  			<div style="background-color: #4d4d4d; height:40%; width:30%; margin: 10px auto; padding:5%; margin-bottom: 15px; border-radius: 25px" id="lights">
+  			<div style="background-color: #4d4d4d; height:45%; width:30%; margin: 10px auto; padding:5%; margin-bottom: 15px; border-radius: 25px" id="lights">
 				<div class="row">
 					Paid
 					<div id="P" class="bulb"></div>
@@ -43,23 +41,24 @@
   		<div id="provider" class="column">
         <div class="providerUI">
           <div id="P1" class="PRLabel">Provider 1</div>
-          <img src="./images/pied-piper.png" id="logoPr1" class="logoPr" alt="logoProvider1">
-          <h5 style="text-align:center"> New Contract Offer! </h5>
+          <img src="./images/rebel_alliance.png" id="logoPr1" class="logoPr" alt="logoProvider1">
+          <h5 id="notif1" class="notif"> New Contract Offer! </h5>
           <div style="text-align:center">
-          <button id="Acc1" type="submit" class="acceptButton">Accept Contract </button>
-          <button id="Rej1" type="submit" class="rejectButton">Reject Contract</button>
+          <button id="Acc1" type="submit" class="acceptButton Contract1">Accept Contract </button>
+          <button id="Rej1" type="submit" class="rejectButton Contract1">Reject Contract</button>
           </div>
         </div>
         <div class="providerUI">
           <div id="P2" class="PRLabel">Provider 2</div>
-          <img src="./images/hooli.png" id="logoPr2" class="logoPr" alt="logoProvider2">
-          <h5 style="text-align:center"> New Contract Offer! </h5>
+          <img src="./images/galactic_empire.png" id="logoPr2" class="logoPr" alt="logoProvider2">
+          <h5 id="notif2" class="notif"> New Contract Offer! </h5>
           <div style="text-align:center">
-          <button id="Acc2" type="submit" class="acceptButton">Accept Contract </button>
-          <button id="Rej2" type="submit" class="rejectButton">Reject Contract</button>
+          <button id="Acc2" type="submit" class="acceptButton Contract2">Accept Contract </button>
+          <button id="Rej2" type="submit" class="rejectButton Contract2">Reject Contract</button>
           </div>
         </div>
       </div>
+  <div class="sprite"></div>
 
   </body>
 
