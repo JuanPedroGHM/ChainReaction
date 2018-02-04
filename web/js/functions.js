@@ -43,6 +43,10 @@ $(document).ready(function(){
 		alert.css({'top' : pos1.top, 'left' : pos1.left})
 		var pos2 = $('#cout').offset();
 		$("#alert").attr("src","./images/ether.png");
+		$('#muAddr').html('MU : ');
+		$('#providerAddr').html('Provider : ');
+		$('#contractAddr').html('Contract : ');
+		$('#amount').html('Euros : ');
 		alert.animate({
 			left:pos2.left,
 			top:pos2.top},
@@ -121,6 +125,11 @@ $(document).ready(function(){
 					$('#notif1').click(function(event){
 						console.log('Withdrawing provider 1 funds')
 						demo.withdraw("provider0")
+
+						$('#muAddr').html('MU : ');
+						$('#providerAddr').html('Provider : ');
+						$('#contractAddr').html('Contract : ');
+						$('#amount').html('Euros : ');
 						changeConsoleMsg('msg6')
 
 						setContractState(true, false, false,false, false, true)

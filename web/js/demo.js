@@ -1,39 +1,45 @@
 var contractData;
+var MU = {
+    url : 'http://localhost:5000',
+    pubk : '0x6D60c2e9ee6EcA2C29848b796dD10DCfAC63dC49'
+};
+
+var providers = [{
+    'url' : 'http://localhost:5001',
+    'pubk' : '0x252b7F9E6104E6EcC332e38954c33CFDa2Af6E54'
+},{
+    'url' : 'http://localhost:5002',
+    'pubk' : '0xFd7B465f9Cc0E5fB919599F6CC84f5676Ee4a909'
+}];
 
 class Demo{
 
     constructor(){
         
-        this.MU = {
-            url : 'http://localhost:5000',
-            pubk : '0xcCd25d5aC5d960B257Ea80b3740361C54b75f956'
-        };
-
-        this.providers = [{
-            'url' : 'http://localhost:5001',
-            'pubk' : '0x49c38B6bcb4f0bA108Dabe254Fd8c196998cB30a'
-        },{
-            'url' : 'http://localhost:5002',
-            'pubk' : '0xFd7B465f9Cc0E5fB919599F6CC84f5676Ee4a909'
-        }];
+        
     }
 
     // MU will forward the info to the provider
     sendContractInfoToMU(machineID, providerIndex, valid){
         var data = {
-            'providerAddr': this.providers[providerIndex].pubk,
-            'providerUrl' : this.providers[providerIndex].url,
+            'providerAddr': providers[providerIndex].pubk,
+            'providerUrl' : providers[providerIndex].url,
             'value': 1000,
             'machineID' : machineID
         }
 
+
         $.ajax({
-            url : this.MU.url + '/contract/new',
+            url : MU.url + '/contract/new',
             type: 'POST',
             data : JSON.stringify(data),
             contentType: 'application/json',
-            success : function(data){
-                contractData = data;
+            success : function(response){
+                contractData = response;
+                $('#muAddr').html($('#muAddr').html() + MU.pubk);
+                $('#providerAddr').html($('#providerAddr').html() + providers[0].pubk);
+                $('#contractAddr').html($('#contractAddr').html() + contractData['contractAddr']);
+                $('#amount').html($('#amount').html() + '1000.00');
             }
         });
     }
@@ -46,7 +52,7 @@ class Demo{
         }
         console.log(data);
         $.ajax({
-            url: this.providers[providerIndex].url + '/contract/validate',
+            url: providers[providerIndex].url + '/contract/validate',
             type : 'POST',
             data: JSON.stringify(data),
             contentType: 'application/json',
@@ -63,7 +69,7 @@ class Demo{
         };
 
         $.ajax({
-            url : this.MU.url + '/contract/ackRepair',
+            url : MU.url + '/contract/ackRepair',
             type: 'POST',
             data : JSON.stringify(data),
             contentType: 'application/json',
@@ -77,12 +83,12 @@ class Demo{
     withdraw(name){
         var url;
         if (name  == 'mu'){
-            url = this.MU.url;
+            url = MU.url;
         }else if(name == 'provider0'){
-            url = this.providers[0].url;
+            url = providers[0].url;
 
         }else{
-            url = this.providers[1].url;
+            url = providers[1].url;
         }
 
         var data = {
