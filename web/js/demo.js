@@ -42,8 +42,8 @@ class Demo{
 
     answerContractRequest(accept, providerIndex){
 
-        data = {
-            'contractAddr' : this.contractData.contractAddr,
+        var data = {
+            // 'contractAddr' : this.contractData['contractAddr'],
             'accept' : accept
         }
         $.ajax({

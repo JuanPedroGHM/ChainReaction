@@ -41,22 +41,39 @@ $(document).ready(function(){
 					3000
 				);
 				setTimeout(function() {
-					$("#notif1").css("visibility","visible")
-					$(".Contract1").css("visibility","visible")
+					$("#notif1").css("visibility","visible");
+					$(".Contract1").css("visibility","visible");
 				}, 3500);
 			}, 2000);
 		}, 3000);
 	});
 	$(".Contract1").click(function(event){
+		pos2=$("#cout").offset();
+		$(".sprite").animate({
+					left:pos2.left,
+					top:pos2.top},
+					3000
+		);
 		if (event.target.id == "Acc1"){
-			
+			demo.answerContractRequest(true,0);
+			$("#alert").attr("src","./images/tick.jpeg");
+			$("#msg52").css("visibility","visible");
+			setTimeout(function() {
+				$("#msg511").css("visibility","visible");
+				setTimeout(function() {
+					$("#msg512").css("visibility","visible");
+				}, 2000);
+			}, 2000);
 		}
 		else{
-
+			demo.answerContractRequest(false,0)
+			$("#alert").attr("src","./images/cross.jpeg");
+			$("#msg51").css("visibility","visible");
+			setTimeout(function() {
+				$("#msg6").css("visibility","visible");
+			}, 2000);
 		}
-
 	})
-
 
 	$("#MachineB").click(function(event){
 		var pos1=$(event.target).offset();
