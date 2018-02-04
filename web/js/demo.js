@@ -6,17 +6,20 @@ class Demo{
         
         this.MU = {
             url : 'http://localhost:5000',
-            pubk : '0x689cce8D28D200F548f6D85F4250b02b90AD4531'
+            pubk : '0xa7eb704d22d02302be513804cf01f17f65bda653'
         };
 
         this.providers = [{
             'url' : 'http://localhost:5001',
-            'pubk' : '0x67BA6Bbe1210bdDD457F8f27027737390Dda3821'
+            'pubk' : '0x9ab4361184baf905ea5134d2ff31f2d48aba1916'
+        },{
+            'url' : 'http://localhost:5002',
+            'pubk' : '0x6df43ceccffebcdcaefdaea5f73430949f0638bd'
         }];
     }
 
     // MU will forward the info to the provider
-    sendContactInfoToMU(machineID, providerIndex, valid){
+    sendContractInfoToMU(machineID, providerIndex, valid){
         var data = {
             'providerAddr': this.providers[providerIndex].pubk,
             'providerUrl' : this.providers[providerIndex].url,
