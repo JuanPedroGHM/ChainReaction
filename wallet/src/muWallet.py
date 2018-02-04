@@ -35,7 +35,8 @@ class MUContractWallet(Wallet):
         self.sendEtherToContract(contractAddr, ether)
 
     def sendEtherToContract(self, contractAddr , ether):
-        self.openContracts[contractAddr].transact({'from' : self.publicKey, 'value' : self.w3.toWei(ether, 'ether')}).sendMoney()
+        self.openContracts[contractAddr].transact({'from' : self.publicKey, 'value' : self.w3.toWei(ether, 'ether')
+        }).sendMoney()
 
     def ackRepair(self, contractAddr):
         self.openContracts[contractAddr]['instance'].transact({'from' : self.publicKey}).acknowledgeRepair()

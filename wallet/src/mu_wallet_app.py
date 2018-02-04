@@ -2,12 +2,24 @@ import json
 from flask import Flask, jsonify, request
 from flask_cors import CORS, cross_origin
 
+import requests
+
 from muWallet import MUContractWallet
 
 app = Flask(__name__)
 CORS(app, support_credentials=True)
 
 wallet = MUContractWallet('http://127.0.0.1:8545', 'keys.txt', 0)
+
+
+
+@app.route('/wallet/balance', methods=['GET'])
+@cross_origin(supports_credentials=True)
+def getBalance():
+    response = {
+        'balance' : str(wallet.getBalance())
+    }
+    return jsonify(response), 200
 
 # Create a new contract
 # {
@@ -19,8 +31,17 @@ wallet = MUContractWallet('http://127.0.0.1:8545', 'keys.txt', 0)
 @cross_origin(supports_credentials=True)
 def newContract():
     data = request.get_json()
-    print(request)
+
     contractAddr, contractAbi = wallet.createContract(data['providerAddr'], data['value'])
+
+    requests.post(data['providerUrl'] + '/contract/new', json = {
+        'contractAddr' : contractAddr,
+        'contractAbi' : contractAbi,
+        'value' : data['value'],
+        'machineID' : data['machineID'],
+        'muAddr' : wallet.publicKey,
+        'valid' : data['valid']
+    })
 
     return jsonify({ 'contractAddr': contractAddr, 'contractAbi': contractAbi}), 200
 
@@ -30,10 +51,11 @@ def newContract():
 #   'value': amount # (in euro)
 # }
 @app.route('/contract/transfer/euro', methods = ['POST'])
-def transferEuros(contractAddr, amount):
+@cross_origin(supports_credentials=True)
+def transferEuros():
     data = request.get_json()
     wallet.sendEurosToContract(data['contractAddr'], data['value'])
-    return jsonify('OK')
+    return getBalance()
 
 # Transfer ether to contract
 # {
@@ -41,41 +63,38 @@ def transferEuros(contractAddr, amount):
 #   'value': amount # (in ether)
 # }
 @app.route('/contract/transfer/ether', methods = ['POST'])
-def transferEther(contractAddr, amount):
+@cross_origin(supports_credentials=True)
+def transferEther():
     data=request.get_json()
     wallet.sendEtherToContract(data['contractAddr'], data['value'])
-    return jsonify({ 'OK' })
+    return getBalance()
 
 # Withdraw
 # {
 #   'contractAddr': addr
 # }
 @app.route('/contract/withdraw', methods = ['POST'])
-def withdraw(contractAddr):
+@cross_origin(supports_credentials=True)
+def withdraw():
     data = request.get_json()
     wallet.withdraw(data['contractAddr'])
-    return createBalanceResponse(wallet)
+    return getBalance()
 
 #
 # {
 #   'contractAddr': addr
 # }
 @app.route('/contract/ackRepair', methods = ['POST'])
-def ackRepair(contractAddr):
+@cross_origin(supports_credentials=True)
+def ackRepair():
     data = request.get_json()
     wallet.ackRepair(data['contractAddr'])
-    response = {
-        'balance': createBalanceResponse(wallet)
-    }
-    return jsonify(response)
 
+    requests.post(data['providerUrl'] + '/contract/finished', json = {
+        'contractAddr' : data['contractAddr'],
+    })
 
-@app.route('/wallet/balance', methods = ['GET'])
-def getContractBalance():
-    response = {
-        'balance': createBalanceResponse(wallet)
-    }
-    return jsonify(response)
+    return getBalance()
 
 
 if __name__ == '__main__':

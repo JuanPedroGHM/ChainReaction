@@ -1,12 +1,25 @@
 from tpWallet import PRWallet
 
 from flask import Flask, jsonify, request
+from flask_cors import CORS, cross_origin
 
 app = Flask(__name__)
+CORS(app, support_credentials=True)
 
 myWallet = PRWallet('http://127.0.0.1:8545', 'tpKeys.txt', 1)
 
+
+@app.route('/wallet/balance', methods=['GET'])
+@cross_origin(supports_credentials=True)
+def getBalance():
+    response = {
+        'balance' : str(myWallet.getBalance())
+    }
+    return jsonify(response), 200
+
+
 @app.route('/contract/new', methods=['POST'])
+@cross_origin(supports_credentials=True)
 def newContract():
 
     values = request.get_json() 
@@ -23,6 +36,7 @@ def newContract():
     return jsonify({'Contract recieved' : valid}), 200
 
 @app.route('/contract/finished', methods = ['POST'])
+@cross_origin(supports_credentials=True)
 def finishContract():
     values = request.get_json()
 
