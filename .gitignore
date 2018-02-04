@@ -8,3 +8,4 @@ web/bower_components
 sandbox.py
 .DS_Store
 *.pyc
+testkeys.txt
